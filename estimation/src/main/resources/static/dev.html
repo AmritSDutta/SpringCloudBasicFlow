@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Estimate for Dev</title>
+</head>
+<body>
+  Dev Estimation.
+
+  <body>
+  <br />
+  <form method="post" action="http://localhost:8080/estimate" enctype="multipart/form-data">
+      Name: <input type="text" name="name" id="name" /><br />
+      <fieldset id="Type" name="Type">
+          <input type="radio" value="Feature" name="Type" checked> Feature
+          <input type="radio" value="BugFix" name="Type"> BugFix
+      </fieldset><br><br>
+
+      <fieldset id="Size" name="Size">
+          <input type="radio" value="Tiny" name="Size">Tiny
+          <input type="radio" value="Small" name="Size">Small
+          <input type="radio" value="Medium" name="Size" checked>Medium
+          <input type="radio" value="Large" name="Size">Large
+          <input type="radio" value="XLarge" name="Size">XLarge
+      </fieldset><br>
+
+      <br>
+      PhysicalSite: <input type="checkbox" name="PhysicalSite" value="true"  /><br />
+      Demo: <input type="checkbox" name="Demo" value="true"  /><br />
+      UI: <input type="checkbox" name="UI" value="true"  /><br />
+      <input type="submit" value="Submit" />
+  </form>
+  </body>
+</body>
+</html>
