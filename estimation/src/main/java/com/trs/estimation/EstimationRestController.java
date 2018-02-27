@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class EstimationRestController {
@@ -30,24 +32,42 @@ public class EstimationRestController {
 
             try
             {
+                List<String> notReq = new ArrayList<>() ;
+                if(!Boolean.TRUE.equals(Boolean.valueOf(PhysicalSite)))
+                    notReq.add("PhysicalSite");
+                if(!Boolean.TRUE.equals(Boolean.valueOf(Demo)))
+                    notReq.add("Demo");
+                if(!Boolean.TRUE.equals(Boolean.valueOf(Mobile)))
+                    notReq.add("Mobile");
+                if(!Boolean.TRUE.equals(Boolean.valueOf(UI)))
+                    notReq.add("UI");
 
                 List<TaskEffort> allefforts =estimationDao.getEfforts(Size,Type);
+                List<TaskEffort> modifiedEfforts=new ArrayList<>();
+                modifiedEfforts.addAll(allefforts);
+                if(!notReq.isEmpty())
+                    modifiedEfforts= allefforts.stream().filter(taskEffort -> !notReq.stream().
+                                                 anyMatch(taskName-> taskEffort.getName().startsWith(taskName)))
+                                                .collect(Collectors.toList());
                 File temp = File.createTempFile(name +" -Estimate ", Long.toString(System.nanoTime()));
                 temp.deleteOnExit();
 
                 PrintWriter writer = new PrintWriter(new FileWriter(temp));
-                writer.println("TRS ESTIMATION:\n\n");
+                writer.println("TRS Backend Estimation:\n\n");
+                writer.println();
                 writer.println("Issue Name : "+name+"\t\tType: "+Type+"\t\tSize :"+Size);
                 writer.println();
                 writer.println();
-                if(allefforts != null) {
-                    allefforts.stream().forEach(task -> {
+                writer.println("Task\t\t\t\t Effort\n");
+                writer.println("-------------------------------------------------");
+
+                if(modifiedEfforts != null) {
+                    modifiedEfforts.stream().filter(task-> task.getEffortInHours() > 0).forEach(task -> {
                         writer.println(task.getName() + "\t\t:" + task.getEffortInHours() + " Hrs. \n");
                     });
                     writer.println("-------------------------------------------------");
-                    int totalEffort=allefforts.stream().mapToInt(TaskEffort::getEffortInHours).sum();
-                    writer.println("Total Effort\t\t:" + totalEffort + " Hrs. \n");
-
+                    int totalEffort=modifiedEfforts.stream().filter(task-> task.getEffortInHours() > 0).mapToInt(TaskEffort::getEffortInHours).sum();
+                    writer.println("Total Effort\t\t\t:" + totalEffort + " Hrs. \n");
                 }
                 //Close writer
                 writer.close();
@@ -62,11 +82,10 @@ public class EstimationRestController {
                 responseHeaders.add("Content-Type",type);
 
                 respEntity = new ResponseEntity(out, responseHeaders,HttpStatus.OK);
-
             }
             catch(IOException e)
             {
-                //
+                //.
             }
          }
         return respEntity;

@@ -3,12 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Estimate for Dev</title>
+
 </head>
 <body>
+<script language="Javascript">
+document.oncontextmenu=RightMouseDown;
+  document.onmousedown = mouseDown;
+
+  function mouseDown(e) {
+      if (e.which==3) {//righClick
+      alert("are you nuts? don't do right click !");
+   }
+}
+function RightMouseDown() { return false;}
+            function IsEmpty(){
+            var x = document.forms["estimate"]["name"].value;
+                  if (x == "") {
+                    alert("Name must be filled out");
+                    return false;
+                }
+            }
+        </script>
 <H1> TRS Dev Estimation.</H1>
 
-  <form method="post" action="http://localhost:8080/estimate" enctype="multipart/form-data">
-      <H3>Name*</H3> <input type="text" name="name" id="name" /><br>
+  <form name="estimate" method="post" onsubmit="return IsEmpty()" action="http://localhost:8095/estimate" enctype="multipart/form-data">
+      <H3>Name*</H3> <input type="text" name="name" id="name" placeholder="TV-12345"/><br>
       <H3>Type</H3>
       <fieldset id="Type" name="Type">
           <input type="radio" value="Feature" name="Type" checked> Feature
@@ -26,9 +45,9 @@
 
       PhysicalSite: <input type="checkbox" name="PhysicalSite" value="true"  /><br />
       Demo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="Demo" value="true"  /><br />
-      UI: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="UI" value="true"  /><br />
-      Mobile: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="UI" value="true"  /><br />
-      <input type="submit" value="Submit" />
+      UI: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="UI" value="true"  /><br />
+      Mobile: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="UI" value="true"  /><br><br>
+      <input type="submit" value="Estimate Efforts" />
   </form>
   </body>
 </body>

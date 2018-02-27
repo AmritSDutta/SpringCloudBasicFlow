@@ -12,12 +12,4 @@ public class EstimationApplication {
 		SpringApplication.run(EstimationApplication.class, args);
 	}
 
-	@Bean
-	public ServletRegistrationBean facesServlet()
-	{
-		EstimationServlet servlet = new EstimationServlet();
-		ServletRegistrationBean servletRegistrationBean = new  ServletRegistrationBean(servlet, "/estimation");
-		servletRegistrationBean.setLoadOnStartup(1);
-		return servletRegistrationBean;
-	}
 }

@@ -21,6 +21,7 @@ public class EstimationDao {
     public List<TaskEffort> getEfforts(String columnName, String type) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         String sql = "SELECT task," + columnName + " FROM estimation WHERE type= '" + type + "'";
+
         List<TaskEffort> taskEfforts = new ArrayList();
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.query(sql, new ResultSetExtractor() {
